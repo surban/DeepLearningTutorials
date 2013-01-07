@@ -4,3 +4,5 @@ html
 *.pyc
 *~
 *.swp
+*.suo
+code/rbm_plots

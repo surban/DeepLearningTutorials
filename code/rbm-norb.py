@@ -72,19 +72,17 @@ class RBM(object):
                       size=(n_visible, n_hidden)),
                       dtype=theano.config.floatX)
             # theano shared variables for weights and biases
-            W = theano.shared(value=initial_W, name='W', borrow=True)
+            W = theano.shared(value=initial_W, name='W')
 
         if hbias is None:
             # create shared variable for hidden units bias
             hbias = theano.shared(value=numpy.zeros(n_hidden,
-                                                    dtype=theano.config.floatX),
-                                  name='hbias', borrow=True)
+                                dtype=theano.config.floatX), name='hbias')
 
         if vbias is None:
             # create shared variable for visible units bias
             vbias = theano.shared(value=numpy.zeros(n_visible,
-                                                    dtype=theano.config.floatX),
-                                  name='vbias', borrow=True)
+                                dtype=theano.config.floatX), name='vbias')
 
         # initialize input layer for standalone RBM or layer0 of DBN
         self.input = input
@@ -317,7 +315,7 @@ class RBM(object):
 def test_rbm(learning_rate=0.1, training_epochs=15,
              dataset='../data/mnist.pkl.gz', batch_size=20,
              n_chains=20, n_samples=10, output_folder='rbm_plots',
-             n_hidden=500, use_pcd=False):
+             n_hidden=500):
     """
     Demonstrate how to train and afterwards sample from it using Theano.
 
@@ -354,20 +352,15 @@ def test_rbm(learning_rate=0.1, training_epochs=15,
     # initialize storage for the persistent chain (state = hidden
     # layer of chain)
     persistent_chain = theano.shared(numpy.zeros((batch_size, n_hidden),
-                                                 dtype=theano.config.floatX),
-                                     borrow=True)
+                                                 dtype=theano.config.floatX))
 
     # construct the RBM class
     rbm = RBM(input=x, n_visible=28 * 28,
               n_hidden=n_hidden, numpy_rng=rng, theano_rng=theano_rng)
 
     # get the cost and the gradient corresponding to one step of CD-15
-    if use_pcd:
-        cost, updates = rbm.get_cost_updates(lr=learning_rate,
-                                             persistent=persistent_chain, k=15)
-    else:
-        cost, updates = rbm.get_cost_updates(lr=learning_rate,
-                                             persistent=None, k=15)
+    cost, updates = rbm.get_cost_updates(lr=learning_rate,
+                                         persistent=persistent_chain, k=15)
 
     #################################
     #     Training the RBM          #

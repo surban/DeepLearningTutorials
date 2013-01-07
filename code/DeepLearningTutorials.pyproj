@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0e43214e-7cfc-40a1-b645-6b8b6fb29e05}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>DeepLearningTutorials</Name>
+    <RootNamespace>DeepLearningTutorials</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="cA.py" />
+    <Compile Include="convolutional_mlp.py" />
+    <Compile Include="dA.py" />
+    <Compile Include="DBN.py" />
+    <Compile Include="logistic_cg.py" />
+    <Compile Include="logistic_sgd.py" />
+    <Compile Include="mcrbm\hmc.py" />
+    <Compile Include="mcrbm\mcrbm.py" />
+    <Compile Include="mcrbm\test_hmc.py" />
+    <Compile Include="mcrbm\test_mcrbm.py" />
+    <Compile Include="mlp.py" />
+    <Compile Include="rbm-norb.py" />
+    <Compile Include="rbm.py" />
+    <Compile Include="SdA.py" />
+    <Compile Include="test.py" />
+    <Compile Include="utils.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="mcrbm\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>
