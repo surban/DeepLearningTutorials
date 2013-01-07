@@ -317,7 +317,7 @@ class RBM(object):
 def test_rbm(learning_rate=0.1, training_epochs=15,
              dataset='../data/mnist.pkl.gz', batch_size=20,
              n_chains=20, n_samples=10, output_folder='rbm_plots',
-             n_hidden=500, use_pcd=False):
+             n_hidden=500, use_pcd=True):
     """
     Demonstrate how to train and afterwards sample from it using Theano.
 
@@ -421,7 +421,8 @@ def test_rbm(learning_rate=0.1, training_epochs=15,
     number_of_test_samples = test_set_x.get_value(borrow=True).shape[0]
 
     # pick random test examples, with which to initialize the persistent chain
-    test_idx = rng.randint(number_of_test_samples - n_chains)
+    #test_idx = rng.randint(number_of_test_samples - n_chains)
+    test_idx = 0
     persistent_vis_chain = theano.shared(numpy.asarray(
             test_set_x.get_value(borrow=True)[test_idx:test_idx + n_chains],
             dtype=theano.config.floatX))
@@ -452,9 +453,12 @@ def test_rbm(learning_rate=0.1, training_epochs=15,
     image_data = numpy.zeros((29 * n_samples + 1, 29 * n_chains - 1),
                              dtype='uint8')
     for idx in xrange(n_samples):
-        # generate `plot_every` intermediate samples that we discard,
-        # because successive samples in the chain are too correlated
-        vis_mf, vis_sample = sample_fn()
+        if idx == 0:
+            vis_mf = test_set_x.get_value(borrow=True)[test_idx:test_idx + n_chains]
+        else:
+            # generate `plot_every` intermediate samples that we discard,
+            # because successive samples in the chain are too correlated
+            vis_mf, vis_sample = sample_fn()
         print ' ... plotting sample ', idx
         image_data[29 * idx:29 * idx + 28, :] = tile_raster_images(
                 X=vis_mf,
